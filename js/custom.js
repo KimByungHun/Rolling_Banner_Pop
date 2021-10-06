@@ -16,6 +16,10 @@ $(".listBox").on("mouseleave",function(){
 $(".list li").on("click", function(e){
     e.preventDefault();
 
+    $(".pop").fadeOut(0, function(){
+        $(this).remove();
+    })
+
     $("body")
         .append(
             $("<aside class='pop'>")
@@ -25,12 +29,23 @@ $(".list li").on("click", function(e){
                 )
                 .fadeIn(500)
         )
+
+        let target = $(this).children("a").attr("href");
+        console.log(target);
+
+        $.ajax({
+            url:target,
+            success:function(data){
+                console.log(data);
+                $(".pop .con").html(data);
+            },
+            error:function(err){
+                console.error("data fail");
+            }
+        })
 });
 
-//레이어 닫기 버튼 클릭시 제거
-// $(".pop .btnClose").on("click",function(){
-//     alert("aa");
-// })
+
 $("body").on("click", ".pop .btnClose", function(){
     $(".pop").fadeOut(500, function(){
         $(this).remove();
